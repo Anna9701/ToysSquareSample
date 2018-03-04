@@ -9,16 +9,22 @@ namespace Laboratorium1.Implementations
 {
     class Submarine : IDive, IToy
     {
-        private int depth;
+        public String Name { get; private set; }
+        public int Depth { get; private set; }
+
+        public Submarine(String name)
+        {
+            Name = name;
+        }
 
         public void Dive(int change)
         {
-            depth = change;
+            Depth = change;
         }
 
-        public int getDepth()
+        public String GetState()
         {
-            return depth;
+            return Name + " -> Depth: " + Depth;
         }
     }
 }

@@ -1,23 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Laboratorium1.Interfaces;
 
 namespace Laboratorium1.Implementations
 {
     class Car : IAccelerate, IToy
     {
-        private int speed;
-        public void Accelerate(int change)
+        public int Speed { get; private set; }
+        public String Name { get; private set; }
+
+        public Car (String name) 
         {
-            speed = change;
+            Name = name;
         }
 
-        public int getSpeed()
+        public void Accelerate(int change)
         {
-            return speed;
+            Speed = change;
+        }
+
+        public String GetState()
+        {
+            return Name + " -> Speed: " + Speed;
         }
     }
 }

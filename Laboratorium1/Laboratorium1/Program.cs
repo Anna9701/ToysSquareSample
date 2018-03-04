@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Laboratorium1.Implementations;
 using Laboratorium1.Interfaces;
 
@@ -12,20 +8,30 @@ namespace Laboratorium1
     {
         static void Main(string[] args)
         {
-            IToy car = new Car();
-            IToy plane = new Plane();
-            IToy submarine = new Submarine();
-            IToy compuer = new Computer();
+            InitSquare();
+            Console.ReadKey();
+        }
+
+        static private void InitSquare()
+        {
+            IToy car = new Car("Car");
+            IToy plane = new Plane("Plane");
+            IToy submarine = new Submarine("Submarine");
+            IToy compuer = new Computer("Computer");
             IToysSquare square = new ToysSquare();
-            square.addToy(car);
-            square.addToy(plane);
-            square.addToy(submarine);
-            square.addToy(compuer);
-            square.changeDepth(20);
-            square.changeHeight(30);
-            square.changeSpeed(40);
-            square.getState();
-            while (true) ;
+
+            square.AddToy(car);
+            square.AddToy(plane);
+            square.AddToy(submarine);
+            square.AddToy(compuer);
+
+            square.PrintState();
+
+            square.ChangeDepth(20);
+            square.ChangeHeight(30);
+            square.ChangeSpeed(40);
+
+            square.PrintState();
         }
     }
 }

@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Laboratorium1.Interfaces
+﻿namespace Laboratorium1.Interfaces
 {
     interface IToysSquare
     {
-        void addToy(IToy toy);
-        void changeSpeed(int change);
-        void changeDepth(int change);
-        void changeHeight(int change);
+        void AddToy(IToy toy);
+        void ChangeSpeed(int change);
+        void ChangeDepth(int change);
+        void ChangeHeight(int change);
 
-        void getState();
+        void PrintState();
     }
 }

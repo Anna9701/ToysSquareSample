@@ -1,76 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Laboratorium1.Interfaces;
 
 namespace Laboratorium1.Implementations
 {
     class ToysSquare : IToysSquare
     {
-        private LinkedList<IToy> toys;
+        private ICollection<IToy> toys;
 
-        public ToysSquare()
+        public ToysSquare() => toys = new LinkedList<IToy>();
+
+        public void AddToy(IToy toy)
         {
-            toys = new LinkedList<IToy>();
+            toys.Add(toy);
         }
 
-        public void addToy(IToy toy)
-        {
-            toys.AddLast(toy);
-        }
-
-        public void getState()
+        public void PrintState()
         {
             foreach(IToy toy in toys)
             {
-                if (toy is IAccelerate)
-                {
-                    IAccelerate t = (IAccelerate)toy;
-                    Console.Out.WriteLine("Speed: {0}", t.getSpeed());
-                } else if (toy is IDive)
-                {
-                    IDive t = (IDive)toy;
-                    Console.Out.WriteLine("Depth: {0}", t.getDepth());
-                } else if (toy is IRise)
-                {
-                    IRise t = (IRise)toy;
-                    Console.Out.WriteLine("Speed: {0}", t.getHeight());
-                }
+                Console.WriteLine(toy.GetState());
             }
         }
-        public void changeDepth(int change)
+
+        public void ChangeDepth(int change)
         {
             foreach (IToy toy in toys)
             {
-                if (toy is IDive)
+                if (toy is IDive t)
                 {
-                    IDive t = (IDive)toy;
                     t.Dive(change);
                 }
             }
         }
 
-        public void changeHeight(int change)
+        public void ChangeHeight(int change)
         {
             foreach (IToy toy in toys)
             {
-                if (toy is IRise)
+                if (toy is IRise t)
                 {
-                    IRise t = (IRise)toy;
                     t.Rise(change);
                 }
             }
         }
 
-        public void changeSpeed(int change)
+        public void ChangeSpeed(int change)
         {
             foreach (IToy toy in toys)
             {
-                if (toy is IAccelerate)
+                if (toy is IAccelerate t)
                 {
-                    IAccelerate t = (IAccelerate)toy;
                     t.Accelerate(change);
                 }
             }
