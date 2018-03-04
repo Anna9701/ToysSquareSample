@@ -11,6 +11,14 @@ namespace Laboratorium1.Implementations
     {
         public String Name { get; private set; }
         public int Depth { get; private set; }
+        public String State
+        {
+            get
+            {
+                return Name + " -> Depth: " + Depth;
+            }
+            private set { }
+        }
 
         public Submarine(String name)
         {
@@ -20,11 +28,6 @@ namespace Laboratorium1.Implementations
         public void Dive(int change)
         {
             Depth = change;
-        }
-
-        public String GetState()
-        {
-            return Name + " -> Depth: " + Depth;
         }
     }
 }

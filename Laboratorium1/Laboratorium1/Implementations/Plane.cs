@@ -7,6 +7,14 @@ namespace Laboratorium1.Implementations
     {
         public int Height { get; private set; }
         public String Name { get; private set; }
+        public String State
+        {
+            get
+            {
+                return Name + " -> Height: " + Height;
+            }
+            private set { }
+        }
 
         public Plane(String name)
         {
@@ -16,11 +24,6 @@ namespace Laboratorium1.Implementations
         public void Rise(int change)
         {
             Height = change;
-        }
-
-        public string GetState()
-        {
-            return Name + " -> Height: " + Height;
         }
     }
 }

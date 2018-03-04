@@ -4,6 +4,7 @@ namespace Laboratorium1.Interfaces
 {
     interface IToy
     {
-        String GetState();
+        String State { get; }
+        String Name { get; }
     }
 }

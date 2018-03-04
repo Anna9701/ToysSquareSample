@@ -19,7 +19,7 @@ namespace Laboratorium1.Implementations
         {
             foreach(IToy toy in toys)
             {
-                Console.WriteLine(toy.GetState());
+                Console.WriteLine(toy.State);
             }
         }
 
