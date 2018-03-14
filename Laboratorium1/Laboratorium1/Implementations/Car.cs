@@ -1,13 +1,13 @@
 ﻿using System;
 using Laboratorium1.Interfaces;
+using Laboratorium1.Structs;
 
 namespace Laboratorium1.Implementations
 {
-    class Car : IAccelerate, IToy
+    class Car : Toy, IAccelerate
     {
         public int Speed { get; private set; }
-        public String Name { get; private set; }
-        public String State
+        public new String State
         {
             get
             {
@@ -16,7 +16,8 @@ namespace Laboratorium1.Implementations
             private set { }
         }
 
-        public Car (String name) 
+        public Car (String name, Double age, Value value) : base(age, value)
+
         {
             Name = name;
         }
@@ -24,6 +25,16 @@ namespace Laboratorium1.Implementations
         public void Accelerate(int change)
         {
             Speed = change;
+        }
+
+        public static IToy CreateSampleCar()
+        {
+            String name = "Car";
+            double age = 7;
+            decimal basePrice = new decimal(27876.28);
+            decimal sentimentalPrice = new decimal(49765.2);
+            Value value = new Value(basePrice, sentimentalPrice);
+            return new Car(name, age, value);
         }
     }
 }

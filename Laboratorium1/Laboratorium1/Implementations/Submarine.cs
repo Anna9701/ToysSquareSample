@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Laboratorium1.Interfaces;
+using Laboratorium1.Structs;
 
 namespace Laboratorium1.Implementations
 {
-    class Submarine : IDive, IToy
+    class Submarine : Toy, IDive
     {
-        public String Name { get; private set; }
         public int Depth { get; private set; }
-        public String State
+        public new String State
         {
             get
             {
@@ -20,7 +20,7 @@ namespace Laboratorium1.Implementations
             private set { }
         }
 
-        public Submarine(String name)
+        public Submarine(String name, Double age, Value value) : base(age, value)
         {
             Name = name;
         }
@@ -28,6 +28,16 @@ namespace Laboratorium1.Implementations
         public void Dive(int change)
         {
             Depth = change;
+        }
+
+        public static IToy CreateSampleSubmarine()
+        {
+            String name = "Submarine";
+            double age = 37;
+            decimal basePrice = new decimal(2007876.28);
+            decimal sentimentalPrice = new decimal(50928.2);
+            Value value = new Value(basePrice, sentimentalPrice);
+            return new Submarine(name, age, value);
         }
     }
 }
