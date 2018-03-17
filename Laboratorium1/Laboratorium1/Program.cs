@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Laboratorium1.Exceptions;
 using Laboratorium1.Implementations;
 using Laboratorium1.Interfaces;
 using Laboratorium1.Structs;
@@ -7,58 +9,81 @@ namespace Laboratorium1
 {
     class Program
     {
-        public static int MAX_TOYS_NUMBER => 7;
-
         static void Main(string[] args)
         {
-            IToysSquare square = InitSquare();
-            square.ToysNumberChanged += Square_ToysNumberChanged;
+            uint maxToysNumber = 5;
+            decimal maxToysValue = 5000000.50M;
+            int incrementValue = 200;
+            ToysSquareSample square = new ToysSquareSample(new ToysSquare(), maxToysNumber, maxToysValue);
+            ICollection<IToy> toysList = GetOneExampleEachToyList();
+
+            AddToysListToSquareSampleTest(square, toysList);
             SampleSquareTest(square);
+            CreateAdditionalToysTest(square);
+            IncrementPriceOfToysTest(toysList, incrementValue);
+
             Console.ReadKey();
             
         }
 
-        private static void Square_ToysNumberChanged(object sender, EventArgs e)
+        static ICollection<IToy> GetOneExampleEachToyList()
         {
-      //      if (square.ToysNumber > MAX_TOYS_NUMBER)
-       //     {
-       //
-         //   }
+            ICollection<IToy> toysList = new LinkedList<IToy>();
+            toysList.Add(Car.CreateSampleCar());
+            toysList.Add(Plane.CreateSamplePlane());
+            toysList.Add(Submarine.CreateSampleSubmarine());
+            toysList.Add(Computer.CreateSampleComputer());
+
+            return toysList;
         }
 
-        static private IToysSquare InitSquare()
+        static private void SampleSquareTest(ToysSquareSample square)
         {
-            IToy car = Car.CreateSampleCar();
-            IToy plane = Plane.CreateSamplePlane();
-            IToy submarine = Submarine.CreateSampleSubmarine();
-            IToy computer = Computer.CreateSampleComputer();
-            IToysSquare square = new ToysSquare();
+            const int depth = 20;
+            const int speed = 40;
+            const int height = 30;
+            square.PrintToysSquareState();
+            square.ChangeToysParameters(depth, height, speed);
+            square.PrintToysSquareState();
+        }
 
-            square.AddToy(car);
-            square.AddToy(plane);
-            square.AddToy(submarine);
-            square.AddToy(computer);
+        static private void AddToysListToSquareSampleTest(ToysSquareSample square, ICollection<IToy> toys)
+        {
+            foreach (IToy toy in toys)
+            {
+                square.AddToyToSquare(toy);
+            }
+        }
 
+        static private void CreateAdditionalToysTest(ToysSquareSample square)
+        {
             try
             {
-                computer.Value = new Value(computer.Value.Price + 500M, computer.Value.SentimentalPrice);
-            } catch (ToysSquare.ValueExceedException ex) {
+                square.AddToyToSquare(Submarine.CreateSampleSubmarine());
+                square.AddToyToSquare(Computer.CreateSampleComputer());
+            } catch (ToysAmountExceedException ex)
+            {
                 Console.Error.WriteLine(ex.Message);
             }
-            return square;
         }
 
-        static private void SampleSquareTest(IToysSquare square)
+        static private void IncrementPriceOfToysTest(ICollection<IToy> toysList, decimal incrementValue)
         {
-            square.PrintState();
+            try
+            {
+                foreach (IToy toy in toysList)
+                {
+                    toy.Value = GetNewValueIncrementedBy(toy.Value, incrementValue);
+                }
+            } catch (ValueExceedException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+        }
 
-            square.ChangeDepth(20);
-            square.ChangeHeight(30);
-            square.ChangeSpeed(40);
-
-            square.PrintState();
-
-            
+        static private Value GetNewValueIncrementedBy(Value currentValue, decimal incrementValue)
+        {
+            return new Value(currentValue.Price + incrementValue, currentValue.SentimentalPrice);
         }
     }
 

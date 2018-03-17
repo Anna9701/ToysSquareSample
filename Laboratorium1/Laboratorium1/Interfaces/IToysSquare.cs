@@ -11,6 +11,7 @@ namespace Laboratorium1.Interfaces
         void ChangeDepth(int change);
         void ChangeHeight(int change);
         int ToysNumber { get; }
+        decimal AllToysValue { get; }
         void PrintState();
     }
 }

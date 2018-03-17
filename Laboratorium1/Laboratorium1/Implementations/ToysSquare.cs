@@ -8,10 +8,7 @@ namespace Laboratorium1.Implementations
 {
     class ToysSquare : IToysSquare
     {
-        public class ValueExceedException : Exception { }
         private ICollection<IToy> toys;
-
-        public static decimal MAXIMUM_VALUE => 500000.50M;
 
         public event EventHandler ToysNumberChanged;
 
@@ -19,7 +16,21 @@ namespace Laboratorium1.Implementations
 
         public int ToysNumber => toys.Count;
 
-        public void OnChanged(EventArgs e)
+        public decimal AllToysValue
+        {
+            get
+            {
+                decimal sum = 0M;
+                foreach (IToy toy in toys)
+                {
+                    sum += toy.CurrentValue;
+                }
+                return sum;
+            }
+            private set { }
+        }
+
+        public void OnToysNumberChanged(EventArgs e)
         {
             ToysNumberChanged?.Invoke(this, e);
         }
@@ -27,23 +38,7 @@ namespace Laboratorium1.Implementations
         public void AddToy(IToy toy)
         {
             toys.Add(toy);
-            toy.ValueChanged += Toy_ValueChanged;
-            OnChanged(EventArgs.Empty);
-        }
-
-
-        private void Toy_ValueChanged(object sender, EventArgs e)
-        {
-            decimal sum = 0M;
-            foreach (IToy toy in toys)
-            {
-                sum += toy.CurrentValue;
-            }
-            if (sum > MAXIMUM_VALUE)
-            {
-                Console.WriteLine("The value of toys in square is too large! Aborting...");
-                throw new ValueExceedException();
-            }
+            OnToysNumberChanged(EventArgs.Empty);
         }
 
         public void PrintState()

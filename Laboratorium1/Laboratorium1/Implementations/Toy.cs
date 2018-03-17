@@ -6,26 +6,22 @@ namespace Laboratorium1.Implementations
 {
     class Toy : IToy
     {
+        private Value value;
+
+        public event EventHandler ValueChanged;
+
         public virtual string State { get; protected set; }
 
         public string Name { get; protected set; }
 
         public double Age { get; set; }
 
-        private Value value;
-
-        public event EventHandler ValueChanged;
-
-        protected void OnChanged(EventArgs e)
+        public decimal CurrentValue
         {
-            ValueChanged?.Invoke(this, e);
-        }
-
-        public decimal CurrentValue {
             get
             {
-                decimal ageRate = new decimal(Age * 0.98);
-                return Value.Price * ageRate;
+                decimal ageRate = new decimal(Age / 100 * 0.98);
+                return Value.Price - Value.Price * ageRate;
             }
             private set { }
         }
@@ -44,6 +40,11 @@ namespace Laboratorium1.Implementations
         {
             Age = age;
             Value = value;
+        }
+
+        protected void OnChanged(EventArgs e)
+        {
+            ValueChanged?.Invoke(this, e);
         }
     }
 }

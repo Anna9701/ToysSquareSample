@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ToysAmountExceedException.cs" />
+    <Compile Include="Exceptions\ValueExceedException.cs" />
     <Compile Include="Implementations\Car.cs" />
     <Compile Include="Implementations\Computer.cs" />
     <Compile Include="Implementations\Plane.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementations\Submarine.cs" />
     <Compile Include="Structs\Value.cs" />
+    <Compile Include="ToysSquareSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
