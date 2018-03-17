@@ -11,13 +11,13 @@ namespace Laboratorium1.Implementations
     class Submarine : Toy, IDive
     {
         public int Depth { get; private set; }
-        public new String State
+        public override String State
         {
             get
             {
                 return Name + " -> Depth: " + Depth;
             }
-            private set { }
+            protected set { }
         }
 
         public Submarine(String name, Double age, Value value) : base(age, value)

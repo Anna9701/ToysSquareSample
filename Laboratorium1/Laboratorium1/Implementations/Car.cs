@@ -7,13 +7,13 @@ namespace Laboratorium1.Implementations
     class Car : Toy, IAccelerate
     {
         public int Speed { get; private set; }
-        public new String State
+        public override String State
         {
             get
             {
                 return Name + " -> Speed: " + Speed;
             }
-            private set { }
+            protected set { }
         }
 
         public Car (String name, Double age, Value value) : base(age, value)

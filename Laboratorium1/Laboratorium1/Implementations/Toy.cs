@@ -1,16 +1,12 @@
 ﻿using Laboratorium1.Interfaces;
 using Laboratorium1.Structs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Laboratorium1.Implementations
 {
     class Toy : IToy
     {
-        public string State { get; protected set; }
+        public virtual string State { get; protected set; }
 
         public string Name { get; protected set; }
 
@@ -28,7 +24,7 @@ namespace Laboratorium1.Implementations
         public decimal CurrentValue {
             get
             {
-                decimal ageRate = (decimal)(Age * 0.98);
+                decimal ageRate = new decimal(Age * 0.98);
                 return Value.Price * ageRate;
             }
             private set { }

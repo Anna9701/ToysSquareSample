@@ -5,6 +5,8 @@ namespace Laboratorium1.Interfaces
 {
     interface IToy
     {
+        string State { get; }
+
         String Name { get; }
         double Age { get; set; }
         Decimal CurrentValue { get; }

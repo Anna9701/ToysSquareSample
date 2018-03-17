@@ -7,13 +7,13 @@ namespace Laboratorium1.Implementations
     class Plane : Toy, IRise
     {
         public int Height { get; private set; }
-        public new String State
+        public override String State
         {
             get
             {
                 return Name + " -> Height: " + Height;
             }
-            private set { }
+            protected set { }
         }
 
         public Plane(String name, Double age, Value value) : base(age, value)

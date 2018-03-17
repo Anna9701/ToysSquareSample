@@ -20,10 +20,10 @@ namespace Laboratorium1
 
         private static void Square_ToysNumberChanged(object sender, EventArgs e)
         {
-            if (square.ToysNumber > MAX_TOYS_NUMBER)
-            {
-
-            }
+      //      if (square.ToysNumber > MAX_TOYS_NUMBER)
+       //     {
+       //
+         //   }
         }
 
         static private IToysSquare InitSquare()
@@ -39,9 +39,12 @@ namespace Laboratorium1
             square.AddToy(submarine);
             square.AddToy(computer);
 
-
-            computer.Value = new Value(computer.Value.Price + 500M, computer.Value.SentimentalPrice);
-
+            try
+            {
+                computer.Value = new Value(computer.Value.Price + 500M, computer.Value.SentimentalPrice);
+            } catch (ToysSquare.ValueExceedException ex) {
+                Console.Error.WriteLine(ex.Message);
+            }
             return square;
         }
 

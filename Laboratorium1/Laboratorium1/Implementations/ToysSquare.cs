@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using Laboratorium1.Interfaces;
 
+
+
 namespace Laboratorium1.Implementations
 {
     class ToysSquare : IToysSquare
     {
+        public class ValueExceedException : Exception { }
         private ICollection<IToy> toys;
 
         public static decimal MAXIMUM_VALUE => 500000.50M;
@@ -39,7 +42,7 @@ namespace Laboratorium1.Implementations
             if (sum > MAXIMUM_VALUE)
             {
                 Console.WriteLine("The value of toys in square is too large! Aborting...");
-                throw new ApplicationException();
+                throw new ValueExceedException();
             }
         }
 
@@ -47,10 +50,8 @@ namespace Laboratorium1.Implementations
         {
             foreach (IToy toy in toys)
             {
-                if (toy is IAccelerate t)
-                {
-                    Console.WriteLine(t.State);
-                }
+                Console.WriteLine(toy.State);
+                
             }
         }
 
