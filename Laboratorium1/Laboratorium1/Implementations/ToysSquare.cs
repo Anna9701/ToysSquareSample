@@ -82,5 +82,15 @@ namespace Laboratorium1.Implementations
                 }
             }
         }
+
+        public void RemoveToyFromSquare (IToy toy)
+        {
+            toys.Remove(toy);
+        }
+
+        public void RemoveAllToysFromSquare ()
+        {
+            toys.Clear();
+        }
     }
 }

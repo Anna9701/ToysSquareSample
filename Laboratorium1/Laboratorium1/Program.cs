@@ -12,15 +12,16 @@ namespace Laboratorium1
         static void Main(string[] args)
         {
             uint maxToysNumber = 5;
-            decimal maxToysValue = 5000000.50M;
+            decimal maxToysValue = 5000.50M;
             int incrementValue = 200;
             ToysSquareSample square = new ToysSquareSample(new ToysSquare(), maxToysNumber, maxToysValue);
             ICollection<IToy> toysList = GetOneExampleEachToyList();
-
             AddToysListToSquareSampleTest(square, toysList);
-            SampleSquareTest(square);
+            SampleChangeParametersOfToysOnSquareTest(square);
             CreateAdditionalToysTest(square);
             IncrementPriceOfToysTest(toysList, incrementValue);
+            square.RemoveToysFromSquareOneByOne(toysList);
+            SampleChangeParametersOfToysOnSquareTest(square);
 
             Console.ReadKey();
             
@@ -37,7 +38,7 @@ namespace Laboratorium1
             return toysList;
         }
 
-        static private void SampleSquareTest(ToysSquareSample square)
+        static private void SampleChangeParametersOfToysOnSquareTest(ToysSquareSample square)
         {
             const int depth = 20;
             const int speed = 40;
@@ -51,7 +52,18 @@ namespace Laboratorium1
         {
             foreach (IToy toy in toys)
             {
-                square.AddToyToSquare(toy);
+                try
+                {
+                    square.AddToyToSquare(toy);
+                }
+                catch (ValueExceedException ex)
+                {
+                    Console.Error.WriteLine(ex.Message);
+                }
+                catch (ToysAmountExceedException ex)
+                {
+                    Console.Error.WriteLine(ex.Message);
+                }
             }
         }
 
@@ -61,7 +73,11 @@ namespace Laboratorium1
             {
                 square.AddToyToSquare(Submarine.CreateSampleSubmarine());
                 square.AddToyToSquare(Computer.CreateSampleComputer());
-            } catch (ToysAmountExceedException ex)
+            } catch (ValueExceedException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+            catch (ToysAmountExceedException ex)
             {
                 Console.Error.WriteLine(ex.Message);
             }
@@ -103,4 +119,9 @@ namespace Laboratorium1
  * set in toy powinien sygnalizowac zdarzenie
  * add w toys square powinien sygnalziwoac zdarzenie
  * toys square powinien odbierac zdarzenie i reagowac na przekroczenie wartosci
+ *
+ *    Dodać metodę pozwalającą usuwać zabawki 
+ *    Utworzyć kilka wątków wykonujących w nieskończony sposób operację dodawania, usuwania i zmiany parametrów (szybkości, wysokości, głębokości) zabawek. Przetestować
+ *    Zapewnić bezpieczeństwo kolekcji zabawek w klasie PokojZabawek. Przetestowac
+ *   
  */

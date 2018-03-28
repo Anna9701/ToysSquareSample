@@ -1,6 +1,9 @@
 ﻿using Laboratorium1.Exceptions;
 using Laboratorium1.Interfaces;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Laboratorium1
 {
@@ -16,6 +19,7 @@ namespace Laboratorium1
             MAX_TOYS_NUMBER = maximumToysNumber;
             MAX_VALUE = maximumToysValue;
             toysSquare.ToysNumberChanged += this.ToysNumberChanged;
+            toysSquare.ToysNumberChanged += this.ToyValueChanged;
         }
 
         public void AddToyToSquare(IToy toy)
@@ -49,6 +53,23 @@ namespace Laboratorium1
 
         public void PrintToysSquareState() => toysSquare.PrintState();
 
+        private void RemoveToyFromSquare (object toy)
+        {
+            toysSquare.RemoveToyFromSquare((IToy)toy);
+        }
 
+        public void RemoveAllToysFromSquare()
+        {
+            toysSquare.RemoveAllToysFromSquare();
+        }
+
+        public void RemoveToysFromSquareOneByOne(ICollection<IToy> toys)
+        {
+            foreach(IToy toy in toys)
+            {
+                Thread newThread = new Thread(new ParameterizedThreadStart(RemoveToyFromSquare));
+                newThread.Start(toy);
+            }
+        }
     }
 }

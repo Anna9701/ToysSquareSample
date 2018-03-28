@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Laboratorium1.Structs
 {
@@ -17,16 +13,7 @@ namespace Laboratorium1.Structs
             {
                 return price;
             }
-            set
-            {
-                if (value > 0)
-                {
-                    price = value;
-                } else
-                {
-                    throw new FormatException();
-                }
-            }
+            private set { }
         }
 
 
@@ -36,16 +23,7 @@ namespace Laboratorium1.Structs
             {
                 return sentimentalPrice;
             }
-            private set
-            {
-                if (value > 0)
-                {
-                    sentimentalPrice = value;
-                } else
-                {
-                    throw new FormatException();
-                }
-            }
+            private set { }
         }
 
         public Value(decimal price, decimal sentimentalPrice)

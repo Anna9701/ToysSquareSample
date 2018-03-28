@@ -13,5 +13,7 @@ namespace Laboratorium1.Interfaces
         int ToysNumber { get; }
         decimal AllToysValue { get; }
         void PrintState();
+        void RemoveToyFromSquare(IToy toy);
+        void RemoveAllToysFromSquare();
     }
 }
