@@ -15,7 +15,7 @@ namespace Laboratorium1.Implementations
         {
             String name = "Computer";
             double age = 0.5;
-            decimal basePrice = new decimal(7500);
+            decimal basePrice = new decimal(2500);
             decimal sentimentalPrice = new decimal(1000);
             Value value = new Value(basePrice, sentimentalPrice);
             return new Computer(name, age, value);

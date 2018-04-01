@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Laboratorium1.Interfaces
 {
@@ -15,5 +16,6 @@ namespace Laboratorium1.Interfaces
         void PrintState();
         void RemoveToyFromSquare(IToy toy);
         void RemoveAllToysFromSquare();
+        ICollection<IToy> Toys { get; }
     }
 }

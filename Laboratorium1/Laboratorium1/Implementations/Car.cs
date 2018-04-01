@@ -31,7 +31,7 @@ namespace Laboratorium1.Implementations
         {
             String name = "Car";
             double age = 7;
-            decimal basePrice = new decimal(27876.28);
+            decimal basePrice = new decimal(15876.28);
             decimal sentimentalPrice = new decimal(49765.2);
             Value value = new Value(basePrice, sentimentalPrice);
             return new Car(name, age, value);

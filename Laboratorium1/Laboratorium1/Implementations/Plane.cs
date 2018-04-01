@@ -30,7 +30,7 @@ namespace Laboratorium1.Implementations
         {
             String name = "Plane";
             double age = 3.5;
-            decimal basePrice = new decimal(306572.28);
+            decimal basePrice = new decimal(30572.28);
             decimal sentimentalPrice = new decimal(0);
             Value value = new Value(basePrice, sentimentalPrice);
             return new Plane(name, age, value);

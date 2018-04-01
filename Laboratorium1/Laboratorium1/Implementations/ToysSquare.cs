@@ -30,6 +30,15 @@ namespace Laboratorium1.Implementations
             private set { }
         }
 
+        public ICollection<IToy> Toys 
+        {
+            get
+            {
+                return toys;
+            }
+            set {}
+        }
+
         public void OnToysNumberChanged(EventArgs e)
         {
             ToysNumberChanged?.Invoke(this, e);
@@ -90,7 +99,10 @@ namespace Laboratorium1.Implementations
 
         public void RemoveAllToysFromSquare ()
         {
-            toys.Clear();
+            lock (toys)
+            {
+                toys.Clear();
+            }
         }
     }
 }

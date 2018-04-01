@@ -11,8 +11,8 @@ namespace Laboratorium1
     {
         static void Main(string[] args)
         {
-            uint maxToysNumber = 5;
-            decimal maxToysValue = 5000.50M;
+            uint maxToysNumber = 15000;
+            decimal maxToysValue = 500000.50M;
             int incrementValue = 200;
             ToysSquareSample square = new ToysSquareSample(new ToysSquare(), maxToysNumber, maxToysValue);
             ICollection<IToy> toysList = GetOneExampleEachToyList();
@@ -20,8 +20,10 @@ namespace Laboratorium1
             SampleChangeParametersOfToysOnSquareTest(square);
             CreateAdditionalToysTest(square);
             IncrementPriceOfToysTest(toysList, incrementValue);
-            square.RemoveToysFromSquareOneByOne(toysList);
-            SampleChangeParametersOfToysOnSquareTest(square);
+
+            square.RemoveFirstToyFromSquareEndlessly();
+            square.ChangeToysParametersEndlessly();
+            square.AddToysToSquareEndlessly();
 
             Console.ReadKey();
             
