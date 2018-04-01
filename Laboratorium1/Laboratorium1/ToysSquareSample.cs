@@ -13,6 +13,7 @@ namespace Laboratorium1
         private IToysSquare toysSquare;
         private readonly uint MAX_TOYS_NUMBER;
         private readonly decimal MAX_VALUE;
+        private static Mutex mutex = new Mutex();
 
         public ToysSquareSample(IToysSquare square, uint maximumToysNumber, decimal maximumToysValue)
         {
@@ -25,8 +26,19 @@ namespace Laboratorium1
 
         public void AddToyToSquare(IToy toy)
         {
+            mutex.WaitOne();
             toy.ValueChanged += this.ToyValueChanged;
-            toysSquare.AddToy(toy);
+            try
+            {
+                toysSquare.AddToy(toy);
+            } catch (ValueExceedException ex)
+            {
+                Console.WriteLine(ex.Message);
+            } catch (ToysAmountExceedException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            mutex.ReleaseMutex();
         }
 
         private void ToysNumberChanged(object sender, EventArgs e)
@@ -47,55 +59,53 @@ namespace Laboratorium1
 
         public void ChangeToysParameters(int depth, int height, int speed)
         {
-            lock (toysSquare.Toys)
-            {
-                toysSquare.ChangeHeight(height);
-                toysSquare.ChangeSpeed(speed);
-                toysSquare.ChangeDepth(depth);
-                PrintToysSquareState();
-            }
+            mutex.WaitOne();
+            toysSquare.ChangeHeight(height);
+            toysSquare.ChangeSpeed(speed);
+            toysSquare.ChangeDepth(depth);
+            PrintToysSquareState();
+            Console.Out.WriteLine();
+            mutex.ReleaseMutex();
         }
 
         public void PrintToysSquareState() => toysSquare.PrintState();
 
         private void RemoveToyFromSquare (IToy toy)
         {
-            lock (toysSquare.Toys)
-            {
-                toysSquare.RemoveToyFromSquare(toy);
-            }
+            mutex.WaitOne();
+            toysSquare.RemoveToyFromSquare(toy);
+            mutex.ReleaseMutex();
         }
 
         public void AddToysToSquareEndlessly()
         {
-            Thread addSampleCarThread, addSamplePlaneThread, addSampleSubmarineThread, addSampleComputerThread;
+            Thread addSampleCarThread, addSamplePlaneThread, addSampleComputerThread;
             while (true)
             {
                 addSampleCarThread = new Thread(() => AddToyToSquare(Car.CreateSampleCar()));
                 addSamplePlaneThread = new Thread(() => AddToyToSquare(Plane.CreateSamplePlane()));
                 addSampleComputerThread = new Thread(() => AddToyToSquare(Computer.CreateSampleComputer()));
-                addSampleSubmarineThread = new Thread(() => AddToyToSquare(Submarine.CreateSampleSubmarine()));
 
                 addSampleCarThread.Start();
                 addSampleComputerThread.Start();
                 addSamplePlaneThread.Start();
-                addSampleSubmarineThread.Start();
-
-                Thread.Sleep(500);
             }
         }
 
         public void RemoveFirstToyFromSquareEndlessly()
         {
             Thread mainThread = new Thread(() => {
-            while (true)
+                while (true)
                 {
-                    lock (toysSquare.Toys) {
-                        var toys = (LinkedList<IToy>)toysSquare.Toys;
-                        Thread removeToysThread = new Thread(() => RemoveToyFromSquare(toys.First.Value));
+                    mutex.WaitOne();
+                    var toys = (LinkedList<IToy>)toysSquare.Toys;
+                    var toy = toys.First;
+                    if (toy != null)
+                    {
+                        Thread removeToysThread = new Thread(() => RemoveToyFromSquare(toy.Value));
                         removeToysThread.Start();
                     }
-                    Thread.Sleep(500);
+                    mutex.ReleaseMutex();
                 }
             });
             mainThread.Start();
@@ -114,7 +124,6 @@ namespace Laboratorium1
                     int height = random.Next(maxParameterVaue);
                     Thread changeParametersThread = new Thread(() => ChangeToysParameters(depth, height, speed));
                     changeParametersThread.Start();
-                    Thread.Sleep(500);
                 }
             });
             thread.Start();

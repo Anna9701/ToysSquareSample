@@ -99,10 +99,7 @@ namespace Laboratorium1.Implementations
 
         public void RemoveAllToysFromSquare ()
         {
-            lock (toys)
-            {
-                toys.Clear();
-            }
+            toys.Clear();
         }
     }
 }
