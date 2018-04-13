@@ -125,5 +125,12 @@ namespace Laboratorium1
  *    Dodać metodę pozwalającą usuwać zabawki 
  *    Utworzyć kilka wątków wykonujących w nieskończony sposób operację dodawania, usuwania i zmiany parametrów (szybkości, wysokości, głębokości) zabawek. Przetestować
  *    Zapewnić bezpieczeństwo kolekcji zabawek w klasie PokojZabawek. Przetestowac
- *   
+ * 
+ *    ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ *    
+ *    Aplikacja do przesylu plików klient/serwer (wielowątkowo)
+ *    - możliwość przerwania przesyłania pliku 
+ *    Klasa tcpClient - od strony klienta bezposrednio, od serwera po zaakcpetowaniu połączenia
+ *    Przesyłanie pliku -> serializacja - 
+ *    Metoda sendFile - brak kontroli nad nią, nie ma możliwość przerwania przesyłania, niezalecane.
  */

@@ -13,7 +13,6 @@ namespace Laboratorium1
         private IToysSquare toysSquare;
         private readonly uint MAX_TOYS_NUMBER;
         private readonly decimal MAX_VALUE;
-        private static Mutex mutex = new Mutex();
 
         public ToysSquareSample(IToysSquare square, uint maximumToysNumber, decimal maximumToysValue)
         {
@@ -26,19 +25,22 @@ namespace Laboratorium1
 
         public void AddToyToSquare(IToy toy)
         {
-            mutex.WaitOne();
-            toy.ValueChanged += this.ToyValueChanged;
-            try
+            lock (toysSquare.Toys)
             {
-                toysSquare.AddToy(toy);
-            } catch (ValueExceedException ex)
-            {
-                Console.WriteLine(ex.Message);
-            } catch (ToysAmountExceedException ex)
-            {
-                Console.WriteLine(ex.Message);
+                toy.ValueChanged += this.ToyValueChanged;
+                try
+                {
+                    toysSquare.AddToy(toy);
+                }
+                catch (ValueExceedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ToysAmountExceedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
-            mutex.ReleaseMutex();
         }
 
         private void ToysNumberChanged(object sender, EventArgs e)
@@ -59,22 +61,24 @@ namespace Laboratorium1
 
         public void ChangeToysParameters(int depth, int height, int speed)
         {
-            mutex.WaitOne();
-            toysSquare.ChangeHeight(height);
-            toysSquare.ChangeSpeed(speed);
-            toysSquare.ChangeDepth(depth);
-            PrintToysSquareState();
-            Console.Out.WriteLine();
-            mutex.ReleaseMutex();
+            lock (toysSquare.Toys)
+            {
+                toysSquare.ChangeHeight(height);
+                toysSquare.ChangeSpeed(speed);
+                toysSquare.ChangeDepth(depth);
+                PrintToysSquareState();
+                Console.Out.WriteLine();
+            }
         }
 
         public void PrintToysSquareState() => toysSquare.PrintState();
 
         private void RemoveToyFromSquare (IToy toy)
         {
-            mutex.WaitOne();
-            toysSquare.RemoveToyFromSquare(toy);
-            mutex.ReleaseMutex();
+            lock (toysSquare.Toys)
+            {
+                toysSquare.RemoveToyFromSquare(toy);
+            }
         }
 
         public void AddToysToSquareEndlessly()
@@ -97,15 +101,16 @@ namespace Laboratorium1
             Thread mainThread = new Thread(() => {
                 while (true)
                 {
-                    mutex.WaitOne();
-                    var toys = (LinkedList<IToy>)toysSquare.Toys;
-                    var toy = toys.First;
-                    if (toy != null)
+                    lock (toysSquare.Toys)
                     {
-                        Thread removeToysThread = new Thread(() => RemoveToyFromSquare(toy.Value));
-                        removeToysThread.Start();
+                        var toys = (LinkedList<IToy>)toysSquare.Toys;
+                        var toy = toys.First;
+                        if (toy != null)
+                        {
+                            Thread removeToysThread = new Thread(() => RemoveToyFromSquare(toy.Value));
+                            removeToysThread.Start();
+                        }
                     }
-                    mutex.ReleaseMutex();
                 }
             });
             mainThread.Start();
